@@ -54,45 +54,37 @@ while True:
 	board = tictactoe.Board()
 
 	# determine who will go first
-	turn = choose_first()
-	print('{} will go first.\n'.format(turn))
-
+	currentPlayer = choose_first()
+	print('{} will go first.\n'.format(currentPlayer))
+	print(board)
+	
 	while True:
-
-		if turn == 'Player 1':
-			# get the player's move
-			position = player_choice(board)
-
-			# update the board
-			board.place_marker(player1_marker, position)
-			print(board)
-
-			# check for a winner
-			if board.win_check(player1_marker):
-				print('Player 1 wins!')
-				break
-			elif board.is_full():
-				print('The game is a draw!')
-				break
-			else:
-				turn = 'Player 2'
+		# determine which player's marker to place on the board
+		if currentPlayer == 'Player 1':
+			marker = player1_marker
 		else:
-			# get the player's move
-			position = player_choice(board)
+			marker = player2_marker
 
-			# update the board
-			board.place_marker(player2_marker, position)
-			print(board)
+		# get the player's move
+		position = player_choice(board)
+		print('')
 
-			# check for a winner
-			if board.win_check(player2_marker):
-				print('Player 2 wins!')
-				break
-			elif board.is_full():
-				print('The game is a draw!')
-				break
+		# update the board
+		board.place_marker(marker, position)
+		print(board)
+
+		# check for a winner
+		if board.win_check(marker):
+			print('{} wins!'.format(currentPlayer))
+			break
+		elif board.is_full():
+			print('The game is a draw!')
+			break
+		else:
+			if currentPlayer == 'Player 1':
+				currentPlayer = 'Player 2'
 			else:
-				turn = 'Player 1'
+				currentPlayer = 'Player 1'
 		
 	if not replay():
 		break
